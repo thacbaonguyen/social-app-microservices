@@ -1,6 +1,7 @@
 package com.thacbao.social.usersevice.exception;
 
 import com.thacbao.social.usersevice.dto.response.ExceptionResponse;
+import com.thacbao.social.usersevice.enums.ErrorCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

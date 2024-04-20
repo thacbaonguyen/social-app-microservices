@@ -1,8 +1,7 @@
 package com.thacbao.social.usersevice.exception;
 
+import com.thacbao.social.usersevice.enums.ErrorCode;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 @Data
 public class AppException extends RuntimeException{

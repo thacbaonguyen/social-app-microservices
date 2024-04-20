@@ -1,11 +1,11 @@
 package com.thacbao.social.usersevice.service.impl;
 
 import com.thacbao.social.usersevice.Jwt.GenerateToken;
-import com.thacbao.social.usersevice.annotation.ValidPassword;
 import com.thacbao.social.usersevice.dto.request.LoginRequest;
 import com.thacbao.social.usersevice.dto.request.UserRequest;
 import com.thacbao.social.usersevice.dto.response.UserLoginResponse;
 import com.thacbao.social.usersevice.entity.User;
+import com.thacbao.social.usersevice.enums.ErrorCode;
 import com.thacbao.social.usersevice.enums.Role;
 import com.thacbao.social.usersevice.exception.*;
 import com.thacbao.social.usersevice.repository.UserRepository;
@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
         user.setOtp(otp);
         user.setIsBlocked(false);
         user.setOtpGeneratedTime(LocalDateTime.now());
-        user.setRole(Role.USER.name());
+        user.setRole(Role.ROLE_USER.name());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         userRepository.save(user);
         return user;
@@ -143,7 +143,7 @@ public class UserServiceImpl implements UserService {
         if (!user.getIsActive()){
             throw new InvalidAccountException("Tài khoản chưa được xác thực");
         }
-        var token = generate.generateToken(request, Role.USER.name());
+        var token = generate.generateToken(request, Role.ROLE_USER.name());
         return UserLoginResponse.builder()
                 .token(token)
                 .authenticated(authenticated)
