@@ -50,7 +50,7 @@ public class PostController {
         return ResponseEntity.ok(result);
     }
     @GetMapping("/hashtag")
-    public ResponseEntity<?> getAllPostByHashtag(@RequestParam String hashtag){
+    public ResponseEntity<?> getAllPostByHashtag(@RequestParam("hashtag") String hashtag){
         return ResponseEntity.status(HttpStatus.OK).body(postService.getPostByHashtag(hashtag));
     }
     @PutMapping("/{id}")
