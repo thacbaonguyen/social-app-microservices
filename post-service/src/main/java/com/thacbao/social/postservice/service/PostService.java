@@ -9,11 +9,13 @@ import java.util.List;
 public interface PostService {
     Post createPost(PostRequest request, String role, Long userId);
 
-    Post getPostById(Long id);
+    PostResponse getPostById(Long id);
 
     List<PostResponse> getPostByUser(Long userId);
 
     List<PostResponse> getAllPost(Long userId);
+
+    List<PostResponse> getPostByHashtag(String hashtag);
 
     Post updatePost(Long postId, PostRequest request, Long userId);
 

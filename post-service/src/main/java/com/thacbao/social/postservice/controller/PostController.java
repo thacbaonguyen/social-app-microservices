@@ -11,6 +11,7 @@ import com.thacbao.social.postservice.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,10 +35,7 @@ public class PostController {
     }
     @GetMapping("/{id}")
     public ResponseEntity<?> getPostById(@PathVariable Long id){
-        Post post = postService.getPostById(id);
-        List<PostImage> postImage = postImageService.getAllPostImage(id);
-        PostResponse postResponse = modelMapper.map(post, PostResponse.class);
-        postResponse.setPostImageList(postImage);
+        PostResponse postResponse = postService.getPostById(id);
         return ResponseEntity.ok(postResponse);
     }
     @GetMapping("/user/{user-id}")
@@ -50,6 +48,10 @@ public class PostController {
         User user = userService.getMyInfo(jwt);
         List<PostResponse> result = postService.getAllPost(user.getId());
         return ResponseEntity.ok(result);
+    }
+    @GetMapping("/hashtag")
+    public ResponseEntity<?> getAllPostByHashtag(@RequestParam String hashtag){
+        return ResponseEntity.status(HttpStatus.OK).body(postService.getPostByHashtag(hashtag));
     }
     @PutMapping("/{id}")
     public ResponseEntity<?> updatePost(@PathVariable("id") Long postId,

@@ -1,8 +1,5 @@
-package com.thacbao.social.postservice.dto.response;
-
-import com.thacbao.social.postservice.entity.Hashtag;
-import com.thacbao.social.postservice.entity.PostImage;
-import jakarta.persistence.Column;
+package com.thacbao.social.hashtagservice.entity;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,13 +7,12 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class PostResponse {
+public class Post{
     Long id;
 
     String title;
@@ -38,8 +34,4 @@ public class PostResponse {
     Long userId;
 
     LocalDateTime createdAt;
-
-    List<PostImage> postImageList;
-
-    List<Hashtag> hashtag;
 }

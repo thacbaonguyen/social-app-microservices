@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.thacbao.social</groupId>
-	<artifactId>post-image-service</artifactId>
+	<artifactId>hash-tag-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>post-image-service</name>
+	<name>hash-tag-service</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>21</java.version>
