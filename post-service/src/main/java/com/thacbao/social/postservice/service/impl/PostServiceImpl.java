@@ -1,15 +1,19 @@
 package com.thacbao.social.postservice.service.impl;
 
 import com.thacbao.social.postservice.dto.request.PostRequest;
+import com.thacbao.social.postservice.dto.response.PostResponse;
 import com.thacbao.social.postservice.entity.Post;
+import com.thacbao.social.postservice.entity.PostImage;
 import com.thacbao.social.postservice.exception.DataNotFoundException;
 import com.thacbao.social.postservice.exception.PermissionException;
 import com.thacbao.social.postservice.repository.PostRepository;
+import com.thacbao.social.postservice.service.PostImageService;
 import com.thacbao.social.postservice.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -17,6 +21,7 @@ import java.util.List;
 public class PostServiceImpl implements PostService {
     private final ModelMapper modelMapper;
     private final PostRepository postRepository;
+    private final PostImageService postImageService;
     @Override
     public Post createPost(PostRequest request, String role, Long userId) {
         Post post = modelMapper.map(request, Post.class);
@@ -36,17 +41,35 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> getPostByUser(Long userId) {
+    public List<PostResponse> getPostByUser(Long userId) {
         List<Post> posts = postRepository.findByUserId(userId);
         if (posts.isEmpty()){
             throw new DataNotFoundException("Không tìm thấy bài viết nào hoặc người dùng không tồn tại");
         }
-        return posts;
+        List<PostResponse> postResponses = new ArrayList<>();
+        for (Post item : posts){
+            PostResponse postResponse = new PostResponse();
+            List<PostImage> postImageList = postImageService.getAllPostImage(item.getId());
+            modelMapper.map(item, postResponse);
+            postResponse.setPostImageList(postImageList);
+            postResponses.add(postResponse);
+        }
+        return postResponses;
     }
 
     @Override
-    public List<Post> getAllPost(Long userId) {
-        return postRepository.findByUserId(userId);
+    public List<PostResponse> getAllPost(Long userId) {
+
+        List<Post> posts = postRepository.findByUserId(userId);
+        List<PostResponse> postResponses = new ArrayList<>();
+        for (Post item : posts){
+            PostResponse postResponse = new PostResponse();
+            List<PostImage> postImageList = postImageService.getAllPostImage(item.getId());
+            modelMapper.map(item, postResponse);
+            postResponse.setPostImageList(postImageList);
+            postResponses.add(postResponse);
+        }
+        return postResponses;
     }
 
     @Override
@@ -69,5 +92,10 @@ public class PostServiceImpl implements PostService {
             throw new PermissionException("Bạn không có quyền thực hiện xóa bài viết này");
         }
         postRepository.deleteById(postId);
+    }
+
+    @Override
+    public boolean existPost(Long postId) {
+        return postRepository.existsById(postId);
     }
 }

@@ -1,15 +1,16 @@
 package com.thacbao.social.postservice.controller;
 
 import com.thacbao.social.postservice.dto.request.PostRequest;
+import com.thacbao.social.postservice.dto.response.PostResponse;
 import com.thacbao.social.postservice.entity.Post;
+import com.thacbao.social.postservice.entity.PostImage;
 import com.thacbao.social.postservice.entity.User;
+import com.thacbao.social.postservice.service.PostImageService;
 import com.thacbao.social.postservice.service.PostService;
 import com.thacbao.social.postservice.service.UserService;
 import jakarta.validation.Valid;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +23,7 @@ public class PostController {
     private final UserService userService;
 
     private final PostService postService;
+    private final PostImageService postImageService;
     private final ModelMapper modelMapper;
     @PostMapping()
     public ResponseEntity<?> createPost(@Valid @RequestBody PostRequest request,
@@ -33,18 +35,21 @@ public class PostController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getPostById(@PathVariable Long id){
         Post post = postService.getPostById(id);
-        return ResponseEntity.ok(post);
+        List<PostImage> postImage = postImageService.getAllPostImage(id);
+        PostResponse postResponse = modelMapper.map(post, PostResponse.class);
+        postResponse.setPostImageList(postImage);
+        return ResponseEntity.ok(postResponse);
     }
     @GetMapping("/user/{user-id}")
     public ResponseEntity<?> getPostByUserId(@PathVariable("user-id") Long userId){
-        List<Post> posts = postService.getPostByUser(userId);
-        return ResponseEntity.ok(posts);
+        List<PostResponse> result = postService.getPostByUser(userId);
+        return ResponseEntity.ok(result);
     }
     @GetMapping("/my-post")
     public ResponseEntity<?> getAllPost(@RequestHeader("Authorization") String jwt){
         User user = userService.getMyInfo(jwt);
-        List<Post> posts = postService.getAllPost(user.getId());
-        return ResponseEntity.ok(posts);
+        List<PostResponse> result = postService.getAllPost(user.getId());
+        return ResponseEntity.ok(result);
     }
     @PutMapping("/{id}")
     public ResponseEntity<?> updatePost(@PathVariable("id") Long postId,
@@ -60,5 +65,9 @@ public class PostController {
         User user = userService.getMyInfo(jwt);
         postService.delete(postId, user.getId());
         return ResponseEntity.ok("Delete post successfully");
+    }
+    @GetMapping("/exist/{id}")
+    public boolean existPost(@PathVariable("id") Long postId){
+        return postService.existPost(postId);
     }
 }

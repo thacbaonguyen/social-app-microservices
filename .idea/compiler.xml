@@ -9,11 +9,13 @@
         <outputRelativeToContentRoot value="true" />
         <module name="user-sevice" />
         <module name="postservice" />
+        <module name="post-image-service" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="post-image-service" options="-parameters" />
       <module name="postservice" options="-parameters" />
       <module name="user-sevice" options="-parameters" />
     </option>
