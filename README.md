@@ -1,4 +1,3 @@
-### like service
 ### comment service
 ### share service
 ### saved service
