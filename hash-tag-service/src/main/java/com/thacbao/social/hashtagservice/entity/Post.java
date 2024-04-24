@@ -1,5 +1,4 @@
 package com.thacbao.social.hashtagservice.entity;
-import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;

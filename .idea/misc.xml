@@ -8,6 +8,7 @@
         <option value="$PROJECT_DIR$/user-sevice/pom.xml" />
         <option value="$PROJECT_DIR$/post-image-service/pom.xml" />
         <option value="$PROJECT_DIR$/hash-tag-service/pom.xml" />
+        <option value="$PROJECT_DIR$/like-service/pom.xml" />
       </list>
     </option>
     <option name="workspaceImportForciblyTurnedOn" value="true" />

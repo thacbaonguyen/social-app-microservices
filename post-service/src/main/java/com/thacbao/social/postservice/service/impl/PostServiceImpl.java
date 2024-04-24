@@ -9,6 +9,7 @@ import com.thacbao.social.postservice.exception.DataNotFoundException;
 import com.thacbao.social.postservice.exception.PermissionException;
 import com.thacbao.social.postservice.repository.PostRepository;
 import com.thacbao.social.postservice.service.HashtagService;
+import com.thacbao.social.postservice.service.LikeService;
 import com.thacbao.social.postservice.service.PostImageService;
 import com.thacbao.social.postservice.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ public class PostServiceImpl implements PostService {
     private final ModelMapper modelMapper;
     private final PostRepository postRepository;
     private final PostImageService postImageService;
+    private final LikeService likeService;
     private final HashtagService hashtagService;
     @Override
     public Post createPost(PostRequest request, String role, Long userId) {
@@ -43,9 +45,11 @@ public class PostServiceImpl implements PostService {
                 orElseThrow(() ->  new DataNotFoundException("Không tìm thấy bài viết"));
         List<PostImage> postImage = postImageService.getAllPostImage(id);
         List<Hashtag> hashtags = hashtagService.getHashTag(id);
+        Long like = likeService.countLikePost(id);
         PostResponse postResponse = modelMapper.map(post, PostResponse.class);
         postResponse.setPostImageList(postImage);
         postResponse.setHashtag(hashtags);
+        postResponse.setLike(like);
         return postResponse;
     }
 
@@ -60,9 +64,11 @@ public class PostServiceImpl implements PostService {
             PostResponse postResponse = new PostResponse();
             List<PostImage> postImageList = postImageService.getAllPostImage(item.getId());
             List<Hashtag> hashtagList = hashtagService.getHashTag(item.getId());
+            Long like = likeService.countLikePost(item.getId());
             modelMapper.map(item, postResponse);
             postResponse.setPostImageList(postImageList);
             postResponse.setHashtag(hashtagList);
+            postResponse.setLike(like);
             postResponses.add(postResponse);
         }
         return postResponses;
@@ -77,9 +83,11 @@ public class PostServiceImpl implements PostService {
             PostResponse postResponse = new PostResponse();
             List<PostImage> postImageList = postImageService.getAllPostImage(item.getId());
             List<Hashtag> hashtagList = hashtagService.getHashTag(item.getId());
+            Long like = likeService.countLikePost(item.getId());
             modelMapper.map(item, postResponse);
             postResponse.setPostImageList(postImageList);
             postResponse.setHashtag(hashtagList);
+            postResponse.setLike(like);
             postResponses.add(postResponse);
         }
         return postResponses;
@@ -94,12 +102,20 @@ public class PostServiceImpl implements PostService {
                     new DataNotFoundException("Khong tim thay bai dang nao"));
             List<PostImage> postImageList = postImageService.getAllPostImage(item);
             List<Hashtag> hashtagList = hashtagService.getHashTag(item);
+            Long like = likeService.countLikePost(item);
             PostResponse postResponse = modelMapper.map(post, PostResponse.class);
             postResponse.setPostImageList(postImageList);
             postResponse.setHashtag(hashtagList);
+            postResponse.setLike(like);
             postResponses.add(postResponse);
         }
         return postResponses;
+    }
+
+    @Override
+    public List<PostResponse> getPostLiked(Long userId) {
+        List<Long> postId = likeService.likePostArchive(userId);
+        return null;
     }
 
     @Override

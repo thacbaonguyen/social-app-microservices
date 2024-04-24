@@ -17,6 +17,8 @@ public interface PostService {
 
     List<PostResponse> getPostByHashtag(String hashtag);
 
+    List<PostResponse> getPostLiked(Long userId);
+
     Post updatePost(Long postId, PostRequest request, Long userId);
 
     void delete(Long postId, Long userId);

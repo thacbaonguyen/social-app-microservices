@@ -42,4 +42,5 @@ public class PostResponse {
     List<PostImage> postImageList;
 
     List<Hashtag> hashtag;
+    Long like;
 }

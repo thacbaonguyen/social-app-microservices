@@ -1,7 +1,6 @@
 package com.thacbao.social.hashtagservice.controller;
 
 import com.thacbao.social.hashtagservice.dto.request.HashtagRequest;
-import com.thacbao.social.hashtagservice.entity.Hashtag;
 import com.thacbao.social.hashtagservice.entity.Post;
 import com.thacbao.social.hashtagservice.entity.User;
 import com.thacbao.social.hashtagservice.service.HashtagService;
