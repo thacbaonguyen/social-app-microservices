@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="post-image-service" />
         <module name="hash-tag-service" />
+        <module name="comment-service" />
         <module name="user-sevice" />
         <module name="postservice" />
         <module name="like-service" />
@@ -17,6 +18,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="comment-service" options="-parameters" />
       <module name="hash-tag-service" options="-parameters" />
       <module name="like-service" options="-parameters" />
       <module name="post-image-service" options="-parameters" />

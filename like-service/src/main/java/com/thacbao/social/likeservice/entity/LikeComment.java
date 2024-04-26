@@ -6,6 +6,8 @@ import lombok.experimental.FieldDefaults;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "like_comments")
 @Builder

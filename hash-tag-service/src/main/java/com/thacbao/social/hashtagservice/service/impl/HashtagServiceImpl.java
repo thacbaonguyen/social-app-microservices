@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -16,13 +17,14 @@ public class HashtagServiceImpl implements HashtagService {
     private final HashtagRepository hashtagRepository;
     @Override
     public String insertHashtag(Long postId, HashtagRequest request) {
-
-        for (String item : request.getHashtag()){
-            Hashtag hashtag = new Hashtag();
-            hashtag.setHashtag(item);
-            hashtag.setPostId(postId);
-            hashtagRepository.save(hashtag);
-        }
+        request.getHashtag().stream()
+                .map(item -> {
+                    Hashtag hashtag = new Hashtag();
+                    hashtag.setHashtag(item);
+                    hashtag.setPostId(postId);
+                    return hashtag;
+                })
+                .forEach(hashtagRepository::save);
         return "Thêm thành công";
     }
 
@@ -34,10 +36,8 @@ public class HashtagServiceImpl implements HashtagService {
     @Override
     public List<Long> getPostId(String hashtag) {
         List<Hashtag> hashtags = hashtagRepository.findByHashtag(hashtag);
-        List<Long> postId = new ArrayList<>();
-        for (Hashtag item : hashtags){
-            postId.add(item.getPostId());
-        }
-        return postId;
+        return hashtags.stream()
+                .map(Hashtag::getPostId)
+                .collect(Collectors.toList());
     }
 }
