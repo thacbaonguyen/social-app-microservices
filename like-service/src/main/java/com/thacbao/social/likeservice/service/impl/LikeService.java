@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.xml.stream.events.Comment;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -64,21 +65,15 @@ public class LikeService implements com.thacbao.social.likeservice.service.LikeS
 
     @Override
     public List<Long> likePostArchive(Long userId) {
-        List<LikePost> list = likePostRepository.findByUserId(userId);
-        List<Long> result = new ArrayList<>();
-        for (LikePost item : list){
-            result.add(item.getPostId());
-        }
-        return result;
+        return likePostRepository.findByUserId(userId)
+                .stream()
+                .map(LikePost::getPostId)
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<Long> likeCommentArchive(Long userId) {
-        List<LikeComment> list = likeCommentRepository.findByUserId(userId);
-        List<Long> result = new ArrayList<>();
-        for (LikeComment item : list){
-            result.add(item.getCommentId());
-        }
-        return result;
+        return likeCommentRepository.findByUserId(userId).stream()
+                        .map(LikeComment::getCommentId).collect(Collectors.toList());
     }
 }

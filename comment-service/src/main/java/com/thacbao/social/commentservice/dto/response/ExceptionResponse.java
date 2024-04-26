@@ -1,10 +1,8 @@
-package com.thacbao.social.postservice.dto.response;
+package com.thacbao.social.commentservice.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatusCode;
 
