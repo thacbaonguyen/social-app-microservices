@@ -14,6 +14,6 @@ public interface LikeService {
     @GetMapping("api/v1/likes/comment/like-count/{id}")
     public Long countLikeComment(@PathVariable("id") Long commentId);
 
-    @GetMapping("api/v1/likes/post/like-archive")
+    @GetMapping("api/v1/likes/post/like-archive/{id}")
     public List<Long> likePostArchive(@PathVariable("id") Long userId);
 }

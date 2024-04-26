@@ -53,6 +53,12 @@ public class PostController {
     public ResponseEntity<?> getAllPostByHashtag(@RequestParam("hashtag") String hashtag){
         return ResponseEntity.status(HttpStatus.OK).body(postService.getPostByHashtag(hashtag));
     }
+    @GetMapping("/liked")
+    public ResponseEntity<?> getPostLiked(@RequestHeader("Authorization") String jwt){
+        User user = userService.getMyInfo(jwt);
+        List<PostResponse> result = postService.getPostLiked(user.getId());
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
     @PutMapping("/{id}")
     public ResponseEntity<?> updatePost(@PathVariable("id") Long postId,
                                         @RequestBody PostRequest request,

@@ -115,7 +115,20 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<PostResponse> getPostLiked(Long userId) {
         List<Long> postId = likeService.likePostArchive(userId);
-        return null;
+        List<PostResponse> postResponses = new ArrayList<>();
+        for (Long item : postId){
+            Post post = postRepository.findById(item).orElseThrow(() ->
+                    new DataNotFoundException("Khong tim thay bai dang"));
+            PostResponse postResponse = modelMapper.map(post, PostResponse.class);
+            List<PostImage> postImageList = postImageService.getAllPostImage(item);
+            List<Hashtag> hashtagList = hashtagService.getHashTag(item);
+            Long like = likeService.countLikePost(item);
+            postResponse.setLike(like);
+            postResponse.setHashtag(hashtagList);
+            postResponse.setPostImageList(postImageList);
+            postResponses.add(postResponse);
+        }
+        return postResponses;
     }
 
     @Override
