@@ -1,6 +1,5 @@
-package com.thacbao.social.postimageservice.service.impl;
-
-import com.thacbao.social.postimageservice.entity.Post;
+package com.thacbao.social.shareservice.service;
+import com.thacbao.social.shareservice.dto.response.PostResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,5 +9,5 @@ public interface PostService {
     @GetMapping("api/v1/posts/exist/{id}")
     public boolean existPost(@PathVariable("id") Long postId);
     @GetMapping("api/v1/posts/{id}")
-    public Post getPostById(@PathVariable Long id);
+    public PostResponse getPostById(@PathVariable Long id);
 }
