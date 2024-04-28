@@ -10,9 +10,10 @@
         <module name="post-image-service" />
         <module name="hash-tag-service" />
         <module name="comment-service" />
-        <module name="user-sevice" />
         <module name="postservice" />
         <module name="like-service" />
+        <module name="user-sevice" />
+        <module name="share-service" />
       </profile>
     </annotationProcessing>
   </component>
@@ -23,6 +24,7 @@
       <module name="like-service" options="-parameters" />
       <module name="post-image-service" options="-parameters" />
       <module name="postservice" options="-parameters" />
+      <module name="share-service" options="-parameters" />
       <module name="user-sevice" options="-parameters" />
     </option>
   </component>

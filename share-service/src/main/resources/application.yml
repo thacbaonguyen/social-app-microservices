@@ -1,0 +1,24 @@
+server:
+  port: 5006
+
+spring:
+  application:
+    name: share-service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/task_share_service
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: 123456
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+api:
+  prefix: api/v1
