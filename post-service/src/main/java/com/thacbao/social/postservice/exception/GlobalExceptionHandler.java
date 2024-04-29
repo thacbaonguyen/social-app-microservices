@@ -14,12 +14,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DataNotFoundException.class)
     public ResponseEntity<?> handlingDataNotFoundException(DataNotFoundException e){
         ExceptionResponse exceptionResponse = new ExceptionResponse();
-        exceptionResponse.setCode(ErrorCode.NO_CONTENT.getCode());
+        exceptionResponse.setCode(ErrorCode.NOT_FOUND.getCode());
         exceptionResponse.setMessage(e.getMessage());
-        exceptionResponse.setStatus(ErrorCode.NO_CONTENT.getStatusCode());
+        exceptionResponse.setStatus(ErrorCode.NOT_FOUND.getStatusCode());
         exceptionResponse.setTimestamp(ZonedDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         exceptionResponse.setError("Not found");
-        return ResponseEntity.status(ErrorCode.NO_CONTENT.getStatusCode()).body(exceptionResponse);
+        return ResponseEntity.status(ErrorCode.NOT_FOUND.getStatusCode()).body(exceptionResponse);
     }
     @ExceptionHandler(PermissionException.class)
     public ResponseEntity<?> handlingPermissionException(PermissionException e){
@@ -28,7 +28,7 @@ public class GlobalExceptionHandler {
         exceptionResponse.setMessage(e.getMessage());
         exceptionResponse.setStatus(ErrorCode.PERMISSION.getStatusCode());
         exceptionResponse.setTimestamp(ZonedDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-        exceptionResponse.setError("Not found");
+        exceptionResponse.setError("Permission account");
         return ResponseEntity.status(ErrorCode.PERMISSION.getStatusCode()).body(exceptionResponse);
     }
 }
