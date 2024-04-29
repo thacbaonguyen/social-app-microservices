@@ -1,5 +1,4 @@
 ## updating
-### share service
 ### saved service
 ### follower service
 ### notification service
