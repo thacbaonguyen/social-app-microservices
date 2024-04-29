@@ -30,11 +30,9 @@ import java.time.LocalDateTime;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Slf4j
 public class UserServiceImpl implements UserService {
-//    final UserMapper userMapper;
     final ModelMapper modelMapper;
     final OtpUtil otpUtil;
     final EmailUtil emailUtil;
-    private ErrorCode errorCode;
     final PasswordEncoder passwordEncoder;
     final GenerateToken generate;
 

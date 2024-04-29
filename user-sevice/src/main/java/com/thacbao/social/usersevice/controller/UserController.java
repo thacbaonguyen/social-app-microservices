@@ -3,6 +3,7 @@ package com.thacbao.social.usersevice.controller;
 import com.thacbao.social.usersevice.annotation.ValidPassword;
 import com.thacbao.social.usersevice.dto.request.LoginRequest;
 import com.thacbao.social.usersevice.dto.request.UserRequest;
+import com.thacbao.social.usersevice.dto.response.ApiResponse;
 import com.thacbao.social.usersevice.dto.response.UserLoginResponse;
 import com.thacbao.social.usersevice.dto.response.UserResponse;
 import com.thacbao.social.usersevice.entity.User;
@@ -34,7 +35,11 @@ public class UserController {
     public ResponseEntity<?> createUser(@Valid @RequestBody UserRequest request, BindingResult result)  {
         if (result.hasErrors()){
             List<String> errorMessage = result.getFieldErrors().stream().map(FieldError::getDefaultMessage).toList();
-            return ResponseEntity.badRequest().body(errorMessage);
+            return ResponseEntity.badRequest().body(ApiResponse.builder()
+                            .code(2001)
+                            .message("Not success")
+                            .result(errorMessage)
+                    .build());
         }
         if (!request.getPassword().equals(request.getRetypePassword())){
             return ResponseEntity.badRequest().body("Mật khẩu không trùng khớp");
@@ -45,30 +50,54 @@ public class UserController {
         } catch (AppException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
-        return ResponseEntity.ok("Vui lòng kiểm tra và xác thực tài khoản trong hộp thư email của bạn");
+        return ResponseEntity.ok(ApiResponse.builder()
+                        .code(2000)
+                        .message("Success")
+                        .result("Vui lòng kiểm tra và xác thực tài khoản trong hộp thư email của bạn")
+                .build());
     }
     @PutMapping("/verify-account")
-    public ResponseEntity<String> verifyAccount(@RequestParam String email,
+    public ResponseEntity<?> verifyAccount(@RequestParam String email,
                                                 @RequestParam String otp) {
-        return new ResponseEntity<>(userService.verifyAccount(email, otp), HttpStatus.OK);
+        return new ResponseEntity<>(ApiResponse.builder()
+                .code(2000)
+                .result(userService.verifyAccount(email, otp))
+                .message("Success")
+                .build(), HttpStatus.OK);
     }
     @PutMapping("/regenerate-otp")
-    public ResponseEntity<String> regenerateOtp(@RequestParam String email) {
-        return new ResponseEntity<>(userService.regenerateOtp(email), HttpStatus.OK);
+    public ResponseEntity<?> regenerateOtp(@RequestParam String email) {
+        return new ResponseEntity<>(ApiResponse.builder()
+                .code(2000)
+                .message("Success")
+                .result(userService.regenerateOtp(email))
+                .build(), HttpStatus.OK);
     }
     @GetMapping("/my-info")
     public ResponseEntity<?> getMyInfo(){
         try {
             User user = userService.getInfo();
-            return ResponseEntity.ok(modelMapper.map(user, UserResponse.class));
+            return ResponseEntity.ok(ApiResponse.builder()
+                            .code(2000)
+                            .result(modelMapper.map(user, UserResponse.class))
+                            .message("Success")
+                    .build());
         } catch (DataNotFoundException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(ApiResponse.builder()
+                            .code(2001)
+                            .message("Not success")
+                            .result(e.getMessage())
+                    .build());
         }
     }
     @PutMapping("/forgot-password")
-    public ResponseEntity<String> forgotPassword(@RequestParam String email){
+    public ResponseEntity<?> forgotPassword(@RequestParam String email){
         try {
-            return ResponseEntity.ok(userService.forgotPassword(email));
+            return ResponseEntity.ok(ApiResponse.builder()
+                            .code(2000)
+                            .result(userService.forgotPassword(email))
+                            .message("Success")
+                    .build());
         } catch (DataNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -79,18 +108,34 @@ public class UserController {
                                               @RequestHeader @ValidPassword String newPassword ){
         try {
             User user = userService.setPassword(email,otp, newPassword);
-            return ResponseEntity.ok(modelMapper.map(user, UserResponse.class));
+            return ResponseEntity.ok(ApiResponse.builder()
+                            .code(2000)
+                            .message("Success")
+                            .result(modelMapper.map(user, UserResponse.class))
+                    .build());
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(ApiResponse.builder()
+                            .code(2001)
+                            .message("Not success")
+                            .result(e.getMessage())
+                    .build());
         }
     }
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request){
         try {
             UserLoginResponse userLoginResponse = userService.login(request);
-            return ResponseEntity.ok(userLoginResponse);
+            return ResponseEntity.ok(ApiResponse.builder()
+                            .code(2000)
+                            .message("Success")
+                            .result(userLoginResponse)
+                    .build());
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(ApiResponse.builder()
+                            .code(2001)
+                            .message("NOt success")
+                            .result(e.getMessage())
+                    .build());
         }
     }
 }
