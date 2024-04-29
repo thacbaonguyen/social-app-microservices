@@ -77,11 +77,7 @@ public class UserController {
     public ResponseEntity<?> getMyInfo(){
         try {
             User user = userService.getInfo();
-            return ResponseEntity.ok(ApiResponse.builder()
-                            .code(2000)
-                            .result(modelMapper.map(user, UserResponse.class))
-                            .message("Success")
-                    .build());
+            return ResponseEntity.ok(modelMapper.map(user, UserResponse.class));
         } catch (DataNotFoundException e) {
             return ResponseEntity.badRequest().body(ApiResponse.builder()
                             .code(2001)

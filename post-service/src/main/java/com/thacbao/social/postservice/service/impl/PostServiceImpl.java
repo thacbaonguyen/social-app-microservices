@@ -53,6 +53,10 @@ public class PostServiceImpl implements PostService {
         return postResponse;
     }
 
+    public Post getPost(Long id){
+        return postRepository.findById(id).
+                orElseThrow(() ->  new DataNotFoundException("Không tìm thấy bài viết"));
+    }
     @Override
     public List<PostResponse> getPostByUser(Long userId) {
         List<Post> posts = postRepository.findByUserId(userId);

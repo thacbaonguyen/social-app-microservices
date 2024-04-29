@@ -11,6 +11,8 @@ public interface PostService {
 
     PostResponse getPostById(Long id);
 
+    Post getPost(Long id);
+
     List<PostResponse> getPostByUser(Long userId);
 
     List<PostResponse> getAllPost(Long userId);

@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface PostService {
     @GetMapping("api/v1/posts/exist/{id}")
     public boolean existPost(@PathVariable("id") Long postId);
-    @GetMapping("api/v1/posts/{id}")
+    @GetMapping("api/v1/posts/open-feign/{id}")
     public Post getPostById(@PathVariable Long id);
 }

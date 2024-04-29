@@ -11,8 +11,6 @@ import java.util.List;
 public interface LikeService {
     @GetMapping("api/v1/likes/post/like-count/{id}")
     public Long countLikePost(@PathVariable("id") Long postId);
-    @GetMapping("api/v1/likes/comment/like-count/{id}")
-    public Long countLikeComment(@PathVariable("id") Long commentId);
 
     @GetMapping("api/v1/likes/post/like-archive/{id}")
     public List<Long> likePostArchive(@PathVariable("id") Long userId);
